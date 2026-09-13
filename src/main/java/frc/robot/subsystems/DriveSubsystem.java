@@ -5,6 +5,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkRelativeEncoder;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase  {
@@ -63,4 +64,14 @@ public class DriveSubsystem extends SubsystemBase  {
     public void stop() {
         acionarMotores(0, 0);
     }
-        }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Drive/Encoder Esquerdo", encoderEsquerdo.getPosition());
+        SmartDashboard.putNumber("Drive/Encoder Direito", encoderDireito.getPosition());
+        SmartDashboard.putNumber("Drive/Velocidade FL", frontLeft.get());
+        SmartDashboard.putNumber("Drive/Velocidade FR", frontRight.get());
+        SmartDashboard.putNumber("Drive/Velocidade BL", backLeft.get());
+        SmartDashboard.putNumber("Drive/Velocidade BR", backRight.get());
+    }
+}

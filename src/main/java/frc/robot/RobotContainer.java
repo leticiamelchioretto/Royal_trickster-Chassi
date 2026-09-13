@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShutterSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
 
@@ -14,9 +16,13 @@ public class RobotContainer {
 
     private final CommandXboxController controle = new CommandXboxController(0);
 
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+
     public RobotContainer() {
         configurarComandosPadrao();
         configurarBotoes();
+        configurarAutonomos();
     }
 
     private void configurarComandosPadrao() {
@@ -43,24 +49,27 @@ public class RobotContainer {
         ));
     }
 
-public Command getAutonomousCommand() {
-    return Commands.sequence(
 
-        Commands.run(
-            () -> drive.andarRetoComPD(0.3),
-            drive
-        ).withTimeout(2),
+    private void configurarAutonomos() {
 
-        Commands.run(
-            () -> shutter.ligarAmbos(),
-            shutter
-        ).withTimeout(2),
+        autoChooser.setDefaultOption("Nada", Commands.none());
 
-        Commands.runOnce(() -> {
-            drive.stop();
-            shutter.parar();
-        })
+        autoChooser.addOption("Só anda",
+            Commands.run(() -> drive.andarRetoComPD(0.3), drive).withTimeout(2)
+        );
 
-    );
-}
-}
+        autoChooser.addOption("Anda + shutters",
+            Commands.sequence(
+                Commands.run(() -> drive.andarRetoComPD(0.3), drive).withTimeout(2),
+                Commands.run(() -> shutter.ligarAmbos(), shutter).withTimeout(2),
+                Commands.runOnce(() -> { drive.stop(); shutter.parar(); })
+            )
+        );
+
+        SmartDashboard.putData("Autônomo", autoChooser);
+    }
+
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+    }
+    }
