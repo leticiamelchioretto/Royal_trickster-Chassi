@@ -33,9 +33,9 @@ public class DriveSubsystem extends SubsystemBase  {
     }
 
     public void arcadeDrive(double velocidade, double rotacao) {
-        double esquerdo = velocidade + rotacao;
-        double direito  = -(velocidade - rotacao);
-        acionarMotores(esquerdo, direito);
+        double speedLimit = 0.3;
+        double esquerdo = (velocidade * speedLimit) + (rotacao * speedLimit);
+        double direito  = -((velocidade * speedLimit) - (rotacao * speedLimit));
     }
 
     public void andarRetoComPD(double velocidadeBase) {
