@@ -28,8 +28,8 @@ public class RobotContainer {
     private void configurarComandosPadrao() {
         drive.setDefaultCommand(new RunCommand(
             () -> drive.arcadeDrive(
-                -controle.getLeftY(),
-                 controle.getRightX()
+                -controle.getLeftX(),
+                controle.getRightY()
             ),
             drive
         ));
