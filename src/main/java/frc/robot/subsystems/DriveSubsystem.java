@@ -15,10 +15,10 @@ public class DriveSubsystem extends SubsystemBase  {
     private final PIDController pid = new PIDController(0.03, 0.0005, 0.01);
 
     public DriveSubsystem() {
-        frontLeft  = new SparkMax(6, MotorType.kBrushed);
-        backLeft   = new SparkMax(7, MotorType.kBrushed);
+        frontLeft  = new SparkMax(31, MotorType.kBrushed);
+        backLeft   = new SparkMax(32, MotorType.kBrushed);
         frontRight = new SparkMax(4, MotorType.kBrushed);
-        backRight  = new SparkMax(5, MotorType.kBrushed);
+        backRight  = new SparkMax(30, MotorType.kBrushed);
 
         encoderEsquerdo = (SparkRelativeEncoder) frontLeft.getEncoder();
         encoderDireito  = (SparkRelativeEncoder) frontRight.getEncoder();
